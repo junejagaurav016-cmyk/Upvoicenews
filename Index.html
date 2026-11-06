@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UP Voice News - Uttar Pradesh News Portal</title>
+    <style>
+        #netlify-badge { display: none !important; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f2f2f2; padding-bottom: 70px; -webkit-user-select: none; user-select: none; }
+        .section-box { background: white; margin: 10px; padding: 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .full-news { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ddd; color: #444; font-size: 14px; line-height: 1.5; }
+        .read-more-btn { background: #cc0000; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; margin-top: 8px; font-weight: bold; }
+        .admin-secret-panel { background: #fff3f3; border: 1px dashed #cc0000; padding: 10px; margin: 10px; border-radius: 6px; display: none; }
+        .share-btn { display: inline-block; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px; margin-top: 8px; margin-right: 5px; color: white; }
+        .tag-btn { background: #eee; padding: 6px 12px; border-radius: 20px; font-size: 13px; color: #333; font-weight: bold; border: none; cursor: pointer; }
+        .tag-btn:hover { background: #cc0000; color: white; }
+        .nav-item { text-align: center; font-size: 11px; color: #555; cursor: pointer; flex: 1; padding: 5px 0; }
+        .nav-item.active { color: #cc0000; font-weight: bold; }
+    </style>
+</head>
+<body ondblclick="return false;">
+
+    <!-- 1. Top Red Header Bar -->
+    <div style="background: #cc0000; color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+        <div style="font-size: 20px; font-weight: bold; letter-spacing: 0.5px;">UP Voice News</div>
+        <div style="font-size: 13px; background: #990000; padding: 4px 8px; border-radius: 4px; font-weight: bold;">LIVE</div>
+    </div>
+
+    <!-- 2. Diwali Special Banner -->
+    <div style="background: linear-gradient(135deg, #ff9900, #cc0000); color: white; text-align: center; padding: 15px; font-weight: bold; font-size: 18px; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);">
+        🪔 Aap Sabhi Ko UP Voice News Ki Taraf Se Deepawali Ki Hardik Shubhkamnayein! 🪔
+    </div>
+
+    <!-- 3. Breaking News Ticker -->
+    <div style="background: #111; color: white; padding: 10px 15px; font-size: 14px; border-bottom: 3px solid #cc0000;">
+        <span style="background: #cc0000; padding: 3px 6px; border-radius: 3px; font-weight: bold; font-size: 12px; margin-right: 8px;">BREAKING</span> 
+        Deepawali aur Uttar Pradesh ki sabse tez aur nishpaksh khabrein - har khabar par hamari nazar.
+    </div>
+
+    <!-- 4. Trending Topics Tags (Clickable) -->
+    <div style="background: white; padding: 10px; display: flex; gap: 8px; overflow-x: auto; border-bottom: 1px solid #ddd; white-space: nowrap;">
+        <button class="tag-btn" onclick="filterCategory('all')">🔥 Sabhi Khabrein</button>
+        <button class="tag-btn" onclick="filterCategory('diwali')">🪔 Diwali Special</button>
+        <button class="tag-btn" onclick="filterCategory('saharanpur')">📍 Saharanpur Updates</button>
+        <button class="tag-btn" onclick="filterCategory('crime')">🚨 Crime News</button>
+        <button class="tag-btn" onclick="filterCategory('up')">📢 Uttar Pradesh</button>
+    </div>
+
+    <!-- SECRET ADMIN PANEL -->
+    <div id="adminPanel" class="admin-secret-panel">
+        <h4 style="color: #cc0000; margin: 0 0 5px 0;">Admin Media Upload (Secret)</h4>
+        <p style="font-size: 12px; color: #555; margin-bottom: 8px;">Yahan se aap apne phone se nayi photo ya video file select kar sakte hain:</p>
+        <input type="file" id="mediaFile" style="font-size: 12px; margin-bottom: 5px;"><br>
+        <button onclick="alert('Media selected successfully!')" style="background: #cc0000; color: white; border: none; padding: 4px 8px; font-size: 11px; border-radius: 3px; cursor: pointer;">Upload Karo</button>
+    </div>
+
+    <!-- ================= MAIN CONTENT TABS ================= -->
+
+    <!-- 5. HOME SECTION -->
+    <div id="home-section" class="main-tab-content">
+        <!-- Diwali News -->
+        <div class="section-box news-card diwali saharanpur">
+            <span style="color: #cc0000; font-weight: bold; font-size: 12px; text-transform: uppercase;">Mukhya Khabar | मुख्य खबर</span>
+            <h2 style="color: #111; font-size: 20px; margin: 8px 0; line-height: 1.4;">Deepawali par Saharanpur ke bazaaron mein umdi bhari bheed, tyohari season ko lekar police-prashasan poori tarah mustaid</h2>
+            <p style="color: #555; font-size: 14px; line-height: 1.5; margin-bottom: 5px;">
+                <strong>Saharanpur:</strong> Roshni ke pawan parv Deepawali ko lekar Saharanpur ke bazaaron mein zabardast raunak dekhne ko mil rahi hai...
+            </p>
+            
+            <div id="diwali-full" class="full-news">
+                Shehar ke ghantaghar, court road, raywala aur railway road jaise pramukh bazaaron mein kharidari karne ke liye logon ka tanta laga hua hai. Bazaaron mein saje diye, rang-birangi lighton aur pujan samagri ki dukaanon par kharidaaron ki bhari bheed umad padi hai.<br><br>
+                Tyohari season mein umadne wali bhari bheed aur suraksha vyavastha ko dhyan mein rakhte hue jila prashasan aur police vibhag poori tarah mustaid nazar aa raha hai.
+            </div>
+
+            <button onclick="toggleNews('diwali-full', this)" class="read-more-btn">Poori khabar padhein ▼</button>
+            
+            <div style="margin-top: 10px;">
+                <a href="https://api.whatsapp.com/send?text=Deepawali%20par%20Saharanpur%20ke%20bazaaron%20mein%20bheed:%20https://upvoicenews.online" target="_blank" class="share-btn" style="background: #25D366;">📱 WhatsApp</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://upvoicenews.online" target="_blank" class="share-btn" style="background: #1877F2;">📘 Facebook</a>
+            </div>
+        </div>
+
+        <!-- Secondary News List -->
+        <div class="section-box">
+            <h3 style="color: #cc0000; font-size: 16px; margin-top: 0; border-bottom: 2px solid #cc0000; padding-bottom: 5px;">Taaza Updates (Anye Khabrein)</h3>
+            
+            <div class="news-card crime up" style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <h4 style="margin: 0 0 5px 0; font-size: 15px; color: #222;">Ek hi parivar ke 3 sadasyon aur car chalak ki dardnaak maut, ek saath jali teen chitayein.</h4>
+                <span style="font-size: 12px; color: #777;">📅 Crime & UP News | UP Voice News</span>
+                
+                <div id="accident-full" class="full-news">
+                    Saharanpur aur aaspaas ke kshetra mein us waqt shok ki lahar daud gayi jab ek dardnak sadak haadse mein ek hi parivar ke teen sadasyon samet car chalak ki maut ho gayi.
+                </div>
+                <br>
+                <button onclick="toggleNews('accident-full', this)" class="read-more-btn">Poori khabar padhein ▼</button>
+            </div>
+
+            <div class="news-card saharanpur" style="padding: 10px 0;">
+                <h4 style="margin: 0 0 5px 0; font-size: 15px; color: #222;">Janpad mein chalaye ja rahe vishesh swachhata abhiyan ki ground report.</h4>
+                <span style="font-size: 12px; color: #777;">📅 1 hour ago | Saharanpur Special</span>
+            </div>
+        </div>
+
+        <!-- About & Contact Section -->
+        <div class="section-box">
+            <h3 style="color: #cc0000; font-size: 16px; margin-top: 0;">Hamare Bare Mein & Sampark</h3>
+            <p style="font-size: 14px; color: #444; line-height: 1.5; margin-bottom: 8px;">
+                <strong>UP Voice News</strong> digital portal Saharanpur aur Uttar Pradesh ki zamini aur sachchi khabrein nishpakshata se aap tak pahunchata hai.
+            </p>
+            <p style="font-size: 13px; color: #555; margin: 0;">
+                <strong>Sansthapak/Sampadak:</strong> Gaurav Juneja | <strong>Mo./WhatsApp:</strong> 9760007324
+            </p>
+        </div>
+    </div>
+
+    <!-- 6. VIDEO SECTION -->
+    <div id="video-section" class="main-tab-content section-box" style="display:none;">
+        <h3 style="color: #cc0000; margin-top: 0;">📹 Video Reports & Ground Coverage</h3>
+        <p style="font-size: 14px; color: #444; line-height: 1.6;">
+            Yahan aapko Saharanpur ki mukhya ghatnaon aur tyohar ki video reports dekhne ko milengi. Aapke channel ke saare video updates yahin upload honge.
+        </p>
+        <div style="background: #eee; padding: 20px; text-align: center; border-radius: 6px; color: #666; margin-top: 10px;">
+            Naye Video jald hi yahan jode jayenge...
+        </div>
+    </div>
+
+    <!-- 7. LIVE SECTION -->
+    <div id="live-section" class="main-tab-content section-box" style="display:none;">
+        <h3 style="color: #cc0000; margin-top: 0;">🔴 Live TV & Breaking Bulletins</h3>
+        <p style="font-size: 14px; color: #444; line-height: 1.6;">
+            Sahar ki live khabrein, chunav ya tyohar par prashasan ki live update yahan live broadcast ki jayegi.
+        </p>
+        <div style="background: #111; color: white; padding: 20px; text-align: center; border-radius: 6px; margin-top: 10px;">
+            🔴 LIVE BROADCAST OFFLINE
+        </div>
+    </div>
+
+    <!-- 8. REELS SECTION -->
+    <div id="reels-section" class="main-tab-content section-box" style="display:none;">
+        <h3 style="color: #cc0000; margin-top: 0;">📱 News Reels & Poetry Shorts</h3>
+        <p style="font-size: 14px; color: #444; line-height: 1.6;">
+            Aapki rozana ki do-line poetry reels aur short-form motivational updates yahan dekhne ko milengi.
+        </p>
+        <div style="background: #fff3f3; border: 1px dashed #cc0000; padding: 15px; border-radius: 6px; margin-top: 10px;">
+            ✨ <strong>Instagram Reels Feed:</strong> @_cheryy_2414 / UP Voice News Shorts
+        </div>
+    </div>
+
+    <!-- 9. MENU SECTION -->
+    <div id="menu-section" class="main-tab-content section-box" style="display:none;">
+        <h3 style="color: #cc0000; margin-top: 0;">☰ Portal Menu & Categories</h3>
+        <ul style="padding-left: 20px; font-size: 14px; color: #444; line-height: 2;">
+            <li><strong>Saharanpur Local News</strong></li>
+            <li><strong>Crime & Investigation</strong></li>
+            <li><strong>Uttar Pradesh Khabrein</strong></li>
+            <li><strong> विज्ञापन (Ads) के लिए संपर्क करें:</strong> 9760007324</li>
+            <li><strong>संपादक (Editor-in-Chief):</strong> गौरव जुनेजा</li>
+        </ul>
+    </div>
+
+    <!-- 10. Fixed Bottom Navigation Bar -->
+    <div style="position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: -2px 5px rgba(0,0,0,0.1); z-index: 1000;">
+        <div id="nav-home" onclick="showTab('home')" class="nav-item active">🏠 Home</div>
+        <div id="nav-video" onclick="showTab('video')" class="nav-item">📹 Video</div>
+        <div id="nav-live" onclick="showTab('live')" class="nav-item">🔴 Live</div>
+        <div id="nav-reels" onclick="showTab('reels')" class="nav-item">📱 Reels</div>
+        <div id="nav-menu" onclick="showTab('menu')" class="nav-item">☰ Menu</div>
+    </div>
+
+    <script>
+        // Bottom Navigation Tab Switching
+        function showTab(tabName) {
+            let tabs = ['home', 'video', 'live', 'reels', 'menu'];
+            tabs.forEach(t => {
+                let section = document.getElementById(t + '-section');
+                let nav = document.getElementById('nav-' + t);
+                if(section) section.style.display = 'none';
+                if(nav) nav.classList.remove('active');
+            });
+
+            let activeSec = document.getElementById(tabName + '-section');
+            let activeNav = document.getElementById('nav-' + tabName);
+            if(activeSec) activeSec.style.display = 'block';
+            if(activeNav) activeNav.classList.add('active');
+            
+            window.scrollTo(0, 0);
+        }
+
+        // Expand / Collapse News
+        function toggleNews(newsId, btn) {
+            var content = document.getElementById(newsId);
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                btn.innerHTML = "Poori khabar padhein ▼";
+            } else {
+                content.style.display = "block";
+                btn.innerHTML = "Kam dikhaen ▲";
+            }
+        }
+
+        // Trending Tags Filter function
+        function filterCategory(category) {
+            showTab('home'); // Home section par le aaye
+            let cards = document.querySelectorAll('.news-card');
+            cards.forEach(card => {
+                if(category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Secret Admin Login Shortcut (Tap 3 times anywhere)
+        let tapCount = 0;
+        document.addEventListener('click', function() {
+            tapCount++;
+            if (tapCount === 3) {
+                let pass = prompt("Admin Password Darj Karein:");
+                if(pass === "9760") {
+                    let panel = document.getElementById('adminPanel');
+                    panel.style.display = panel.style.display === "block" ? "none" : "block";
+                    alert("Admin Panel Khul Gaya!");
+                } else if(pass !== null) {
+                    alert("Galat Password!");
+                }
+                tapCount = 0;
+            }
+            setTimeout(() => { tapCount = 0; }, 1000);
+        });
+
+        // Anti-Hacking Security
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+
+</body>
+</html>
